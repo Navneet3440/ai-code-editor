@@ -4,7 +4,7 @@
 # Core Settings
 export ALLOWED_HOSTS="127.0.0.1,localhost"
 # DB config
-export POSTGRES_HOST="localhost"
+export POSTGRES_HOST='127.0.0.1'
 export POSTGRES_PORT='5432'
 export POSTGRES_USER='postgres'
 export POSTGRES_PASSWORD='1234'

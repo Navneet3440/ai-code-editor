@@ -67,3 +67,7 @@ def get_logging_config() -> Dict:
             "handlers": ["console"]
         }
     }
+
+
+logging.config.dictConfig(get_logging_config())
+logger = logging.getLogger("app")

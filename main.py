@@ -10,11 +10,10 @@ from app.session.session_router import router as session_router
 from app.app_config import ALLOWED_HOSTS, API_VERSION, DEBUG
 from app.user.user_model import Base as user_base
 from app.user.user_router import router as user_router
-from app.utils.logging_config import get_logging_config
+from app.utils.logging_config import logger, get_logging_config
 
 # Configure logging
-logging.config.dictConfig(get_logging_config())
-logger = logging.getLogger("app")
+
 
 # Create database tables
 user_base.metadata.create_all(bind=engine)
