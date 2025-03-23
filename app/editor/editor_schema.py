@@ -2,9 +2,8 @@ from typing import Optional
 from pydantic import BaseModel
 
 class DebuggerRequest(BaseModel):
-    code: str
-    language: str
+    code_session_id:str
 
 class CodeGeneratorRequest(BaseModel):
-    prompt: str
-    language: str
+    query: Optional[str] = ""
+    code_session_id: str

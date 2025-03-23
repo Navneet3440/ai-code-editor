@@ -117,7 +117,7 @@ def get_session_member(db: Session, user_id: str, session_id: str):
 
 def check_user_session_access(db: Session, user_id: str, session_id: str, roles: list = ["owner", "editor"]):
     member = get_session_member(db, user_id, session_id)
-    return member and member.role in roles
+    return member and member.role.value in roles
 
 def get_user_sessions(db: Session, user_id: str, include_deleted: bool = False):
     query = db.query(Session).join(

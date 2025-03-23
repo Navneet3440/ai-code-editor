@@ -15,6 +15,7 @@ from app.database import get_db
 from app.user.user_crud import get_user_by_user_id
 from app.user.user_model import User
 from app.app_config import JWT_SECRET_KEY, JWT_ALGORITHM, JWT_EXPIRE_MINUTES
+from app.utils.logging_config import logger
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
@@ -62,22 +63,22 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     
     return user
 
-async def get_current_user_ws(websocket: WebSocket) -> str:
-    cookies = websocket.cookies
-    session_token = cookies.get("jwt_token")
+async def ws_get_user(websocket: WebSocket) -> str:
+    session_token = websocket.headers.get("jwt_token")
+    logger.info(f"Cookies Recieved - {session_token}")
 
     if not session_token:
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
-        raise WebSocketDisconnect("Missing authentication cookie")
+        raise WebSocketDisconnect("Missing authentication token in header")
 
     payload = verify_jwt_token(session_token)
     if not payload:
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
-        raise WebSocketDisconnect("Invalid token")
+        raise WebSocketDisconnect("Token invalid")
 
     user_id: str = payload.get("sub")
     if not user_id:
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
-        raise WebSocketDisconnect("Invalid token payload")
+        raise WebSocketDisconnect("Token payload missing")
 
     return user_id
