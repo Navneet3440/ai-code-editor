@@ -133,6 +133,18 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
+## API Documentation
+
+Check the full OpenAPI specification in the file:  
+**`docs/openapi.json`**
+
+Interactive API documentation is also available once the server is running:
+
+- **Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Redoc:** [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+---
+
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
