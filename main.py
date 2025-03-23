@@ -25,7 +25,9 @@ app = FastAPI(
     title="Collaborative Code Editor API",
     description="Backend API for real-time collaborative code editing",
     version=API_VERSION,
-    debug=DEBUG
+    debug=DEBUG,
+    docs_url="/docs",
+    openapi_url = "/openapi.json"
 )
 
 # Configure CORS

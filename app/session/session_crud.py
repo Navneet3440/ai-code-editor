@@ -1,9 +1,9 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
-from app.session.session_model import Session, SessionMembership
+from app.session.session_model import Session, SessionMembership, RoleEnum
 
 def create_session(db: Session, name: str, content_type: str, content: str, created_by: str):
     new_session = Session(
@@ -41,7 +41,7 @@ def update_session(db: Session, session_id: str, name: str = None, content_type:
     if updated_by is not None:
         session.updated_by = updated_by
     
-    session.updated_at = datetime.utcnow()
+    session.updated_at = datetime.now(timezone.utc)
     db.commit()
     db.refresh(session)
     return session
@@ -50,7 +50,7 @@ def soft_delete_session(db: Session, session_id: str, deleted_by: str):
     session = get_session_by_id(db, session_id)
     if session:
         session.is_deleted = True
-        session.updated_at = datetime.utcnow()
+        session.updated_at = datetime.now(timezone.utc)
         session.updated_by = deleted_by
         db.commit()
         db.refresh(session)
@@ -63,13 +63,14 @@ def restore_session(db: Session, session_id: str, restored_by: str):
     ).first()
     if session:
         session.is_deleted = False
-        session.updated_at = datetime.utcnow()
+        session.updated_at = datetime.now(timezone.utc)
         session.updated_by = restored_by
         db.commit()
         db.refresh(session)
     return session
 
 def add_session_member(db: Session, user_id: str, session_id: str, role: str):
+    role = RoleEnum(role)
     membership = SessionMembership(
         user_id=user_id,
         session_id=session_id,
@@ -88,11 +89,11 @@ def update_member_role(db: Session, user_id: str, session_id: str, new_role: str
         SessionMembership.is_deleted == False
     ).first()
     if membership:
-        membership.role = new_role
-        membership.updated_at = datetime.utcnow()
+        membership.role = RoleEnum(new_role)
+        membership.updated_at = datetime.now(timezone.utc)
         db.commit()
         db.refresh(membership)
-    return membership
+        return membership
 
 def remove_session_member(db: Session, user_id: str, session_id: str):
     membership = db.query(SessionMembership).filter(
@@ -102,7 +103,7 @@ def remove_session_member(db: Session, user_id: str, session_id: str):
     ).first()
     if membership:
         membership.is_deleted = True
-        membership.updated_at = datetime.utcnow()
+        membership.updated_at = datetime.now(timezone.utc)
         db.commit()
         db.refresh(membership)
     return membership

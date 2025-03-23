@@ -3,7 +3,6 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError
 
 def test_connection():
-    # Replace with your actual credentials
     engine = create_engine('postgresql+psycopg2://postgres:1234@127.0.0.1:5432/ai_code_editor')
 
     try:

@@ -8,7 +8,7 @@ from fastapi import (
 )
 from sqlalchemy.orm import Session
 
-from app.auth_dependency import get_current_user, get_current_user_ws
+from app.auth_helper import get_current_user
 from app.database import get_db
 from app.editor.editor_schema import DebuggerRequest, CodeGeneratorRequest
 from app.editor.editor_service import analyze_debugger, generate_code, session_websocket

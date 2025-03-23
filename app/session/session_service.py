@@ -4,13 +4,15 @@ from app.session.session_crud import (
     update_session,
     add_session_member,
     update_member_role,
-    get_user_sessions
+    get_user_sessions,
+    get_session_member
 )
 from app.session.session_schema import (
     SessionCreate,
     SessionUpdate,
     SessionMembershipInvite,
-    SessionMembershipUpdate
+    SessionMembershipUpdate,
+    
 )
 
 
@@ -58,6 +60,12 @@ def update_member_role_service(db: Session, update: SessionMembershipUpdate):
         new_role=update.role
     )
 
+def get_session_user_map(db:Session, session_id:str, user_id:str):
+    return get_session_member(
+        db=db,
+        user_id=user_id,
+        session_id=session_id
+    )
 
 def list_user_sessions_service(db: Session, user_id: str):
     return get_user_sessions(db, user_id)

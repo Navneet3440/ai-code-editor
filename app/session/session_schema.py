@@ -1,5 +1,6 @@
 from typing import Literal, Optional
 from pydantic import BaseModel
+from enum import Enum as PyEnum
 
 # Session schema
 class SessionCreate(BaseModel):
@@ -21,9 +22,6 @@ class SessionResponse(BaseModel):
     content: Optional[str] = None
     created_by: str
     updated_by: Optional[str] = None
-    created_at: str
-    updated_at: Optional[str] = None
-    is_deleted: bool = False
 
     class Config:
         from_attributes = True
@@ -44,12 +42,7 @@ class SessionMembershipResponse(BaseModel):
     user_id: str
     session_id: str
     role: str
-    created_at: str
-    updated_at: Optional[str] = None
-    is_deleted: bool = False
 
-    class Config:
-        from_attributes = True
 
 class SessionWithMembership(BaseModel):
     id: int
@@ -59,10 +52,9 @@ class SessionWithMembership(BaseModel):
     content: Optional[str] = None
     created_by: str
     updated_by: Optional[str] = None
-    created_at: str
-    updated_at: Optional[str] = None
-    is_deleted: bool = False
-    role: str
 
-    class Config:
-        from_attributes = True
+
+class RoleEnum(PyEnum):
+    OWNER = "owner"
+    EDITOR = "editor"
+    VIEWER = "viewer"

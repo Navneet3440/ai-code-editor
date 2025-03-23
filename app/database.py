@@ -13,6 +13,7 @@ from app.app_config import (
 )
 
 DATABASE_URL = f'postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_NAME}'
+# DATABASE_URL = 'postgresql+psycopg2://postgres:1234@127.0.0.1:5432/ai_code_editor'
 
 engine = create_engine(
     DATABASE_URL,

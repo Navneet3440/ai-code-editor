@@ -1,19 +1,23 @@
 from sqlalchemy.orm import Session
-from passlib.context import CryptContext
+import argon2
 
 from app.user.user_crud import create_user, get_user_by_username_or_email, get_user_by_username, get_all_users
 from app.user.user_schema import UserCreateRequest
 
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
+
+password_hasher = argon2.PasswordHasher()
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
-
+    return password_hasher.hash(password)
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    try:
+        return password_hasher.verify(hashed_password, plain_password)
+    except:
+        return False
 
 
 def register_user(db: Session, user_create: UserCreateRequest):

@@ -19,7 +19,7 @@ export REDIS_PASSWORD=''
 # JWT Config
 export JWT_SECRET_KEY="test" # only for development
 export JWT_ALGORITHM="HS256"
-export JWT_ACCESS_TOKEN_EXPIRE_MINUTES='1800'
+export JWT_EXPIRE_MINUTES='1800'
 # OpenAI Config
 export OPENAI_API_KEY="Sorry, this key is classified! :)"
 export OPENAI_API_MODEL='gpt-4o-mini'

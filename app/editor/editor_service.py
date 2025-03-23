@@ -7,9 +7,9 @@ from openai import AsyncOpenAI
 from redis.exceptions import RedisError
 from sqlalchemy.orm import Session
 
-from app.auth_dependency import get_current_user_ws
+from app.auth_helper import get_current_user_ws
 from app.database import SessionLocal
-from app.session.session_crud import get_session_by_id, check_user_session_access
+from app.session.session_crud import check_user_session_access
 from app.app_config import (
     OPENAI_API_KEY,
     OPENAI_API_MODEL,
